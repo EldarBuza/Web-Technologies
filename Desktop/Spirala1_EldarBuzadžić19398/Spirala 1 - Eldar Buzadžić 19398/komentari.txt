@@ -1,0 +1,15 @@
+meni.html komentar: Datoteka je sasvim uredu napravljena, te je veoma jednostavna. 
+Ja bih jedino dodao, umjesto <ul> direktno u <body>, <nav> tag koji bi išao oko <ul>. 
+Naravno CSS radi po klasama umjesto direktno tagovima je uvijek bolja opcija. 
+
+nekretnine.html komentar: Jedina ispravka koju sam morao specifično napraviti jeste upravo mijenjanje display:grid; dijela u display:flex;.
+Naravno, u suštini nije moguće napraviti da grid i flex izgledaju isto jer interno nisu isto predstavljeni i imaju određena ključna svojstva zbog kojih se razlikuju.
+Probao sam, prema uputama na samoj postavci spirale 1, te uputama na vježbi, što više približiti izgled korištenjem flex svojstva grid-u.
+
+detalji.html komentar: Kod je generalno dobar i nisam vršio nikakve popravke.
+Jedinu stvar koju sam uradio jeste dodao box-sizing: border-box; za sve elemente kako bi se margine i padding računali unutar ukupne širine elemenata. 
+Ovo olakšava prilagođavanje dizajna i spriječava neočekivana ponašanja kod promjene veličine ekrana.
+Naravno pored toga, kao zadatak potrebno je bilo koristiti media query-e u detalji.css kako bi zadatak bio tačno urađen.
+Kako bi upiti bili prikazani 2 u jednom redu za sve ekrane širine > 800px, te po jedan za ekrane od 600px do 800px, i carousel stil za sve < 600px.
+
+// Napomena: Koristi grid-template-area za posljednji zadatak!
