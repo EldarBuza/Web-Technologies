@@ -1,0 +1,155 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.news-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.noveVijesti{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-y: auto; /* Adds vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+.glavnaVijest{
+    width:100%;
+    grid-column:span 4;
+    background-color:#c9daf8;
+    border: 2px solid black;
+    margin:0px;
+    padding:10px;
+    aspect-ratio: 2/1;
+    overflow-y: auto; /* Adds vertical scrolling */
+    overflow-x: hidden;
+
+}
+
+.glavnaVijest img {
+    width: 100%;
+    height: auto;
+    
+}
+
+.visokaVijest {
+    grid-column: span 1; 
+    grid-row: span 2;
+    background-color: #fff2cc;
+    padding: 10px;
+    margin:0px;
+    border: 2px solid black;
+    aspect-ratio: 1 / 2; 
+    overflow-y: auto; /* Adds vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+.kvadratnaVijest {
+    grid-area: header;
+    grid-column: span 1; 
+    background-color: #f4cccc;
+    padding: 10px;
+    aspect-ratio: 1 / 1; 
+    border: 2px solid black; 
+    overflow-y: auto; /* Adds vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+#vV1{
+    grid-area:visoka1;
+}
+
+#vV2{
+    grid-area:visoka2;
+}
+
+#vV3{
+    grid-area:visoka3;
+}
+
+#vV4{
+    grid-area:visoka4;
+}
+
+#kV1{
+    grid-area:kvadratna1;
+}
+
+#kV2{
+    grid-area:kvadratna2;
+}
+
+#kV3{
+    grid-area:kvadratna3;
+}
+
+#kV4{
+    grid-area:kvadratna4;
+}
+
+#kV5{
+    grid-area:kvadratna5;
+}
+
+#kV6{
+    grid-area:kvadratna6;
+}
+
+#kV7{
+    grid-area:kvadratna7;
+}
+
+#kV8{
+    grid-area:kvadratna8;
+}
+
+.glavnaVijest img{
+    width:100%;
+    height:auto;
+}
+
+@media(min-width: 801px){
+    .glavnaVijest{
+        grid-column:span 4;
+    }
+    .news-container{
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-areas:
+                    "header header header header"
+                    "visoka1 kvadratna1 kvadratna2 visoka2"
+                    "visoka1 kvadratna3 kvadratna4 visoka2"
+                    "kvadratna5 kvadratna6 visoka3 visoka4"
+                    "kvadratna7 kvadratna8 visoka3 visoka4";
+    }
+}
+
+@media(max-width: 800px){
+    .glavnaVijest{
+        grid-column:span 2;
+        aspect-ratio: 1/1;
+    }
+    .news-container{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: 
+                    "header header"
+                    "visoka1 kvadratna1"
+                    "visoka1 kvadratna2"
+                    "kvadratna3 visoka2"
+                    "kvadratna4 visoka2"
+                    "kvadratna5 kvadratna6"
+                    "kvadratna7 kvadratna8"
+                    "visoka3 visoka4"
+                    "visoka3 visoka4"
+                    "... ...";
+    }
+    .noveVijesti{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
