@@ -16,8 +16,8 @@ body {
 .noveVijesti{
     display:grid;
     grid-template-columns: repeat(4, 1fr);
-    overflow-y: auto; /* Adds vertical scrolling */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
+    overflow-y: auto; 
+    overflow-x: hidden; 
 }
 
 .glavnaVijest{
@@ -28,7 +28,7 @@ body {
     margin:0px;
     padding:10px;
     aspect-ratio: 2/1;
-    overflow-y: auto; /* Adds vertical scrolling */
+    overflow-y: auto; 
     overflow-x: hidden;
 
 }
@@ -47,8 +47,8 @@ body {
     margin:0px;
     border: 2px solid black;
     aspect-ratio: 1 / 2; 
-    overflow-y: auto; /* Adds vertical scrolling */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
+    overflow-y: auto; 
+    overflow-x: hidden; 
 }
 
 .kvadratnaVijest {
@@ -58,8 +58,8 @@ body {
     padding: 10px;
     aspect-ratio: 1 / 1; 
     border: 2px solid black; 
-    overflow-y: auto; /* Adds vertical scrolling */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
+    overflow-y: auto; 
+    overflow-x: hidden; 
 }
 
 #vV1{

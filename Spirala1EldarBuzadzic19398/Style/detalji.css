@@ -102,6 +102,9 @@ iframe {
     display: block;
     width: 100%;
   }
+  #upiti-buttons{
+    display:none;
+  }
 }
 
 
