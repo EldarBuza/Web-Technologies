@@ -93,3 +93,19 @@ iframe {
     border-radius: 5px;
     cursor: pointer;
 }
+
+#kuca{
+    margin-left: 160px;
+}
+
+#kuca h1{
+    margin-left: -160px;
+}
+
+#pp{
+    margin-left: 495px;
+}
+
+#pp h1{
+    margin-left: -495px;
+}
