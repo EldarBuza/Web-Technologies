@@ -12,4 +12,9 @@ Ovo olakšava prilagođavanje dizajna i spriječava neočekivana ponašanja kod 
 Naravno pored toga, kao zadatak potrebno je bilo koristiti media query-e u detalji.css kako bi zadatak bio tačno urađen.
 Kako bi upiti bili prikazani 2 u jednom redu za sve ekrane širine > 800px, te po jedan za ekrane od 600px do 800px, i carousel stil za sve < 600px.
 
-// Napomena: Koristi grid-template-area za posljednji zadatak!
+// Napomena sa vježbe: Koristi grid-template-area za posljednji zadatak!
+
+vijesti.html komentar: Prema uputama dobijenih sa postavke, te sa vježbi i Piazza platforme, 
+napravio sam layout za oba slučaja (preko 800px i ispod 800px), s tim da vrijedi napomenuti da se sve nove vijesti
+koje se planiraju dodavati moraju dodati unutar noveVijesti div-a jer bi se u suprotnom pokvario cijeli layout.
+Ovo se drugačije ne može riješiti, tako da sam se odlučio na pristup novog, zasebnog div-a.
