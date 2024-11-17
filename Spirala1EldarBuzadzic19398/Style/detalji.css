@@ -82,7 +82,7 @@ iframe {
 }
 
 /* Stilovi za širine veće od 800px (po dva upita u redu) */
-@media (min-width: 814px) {
+@media (min-width: 801px) {
   .upit {
     display: inline-block;
     width: 48%;

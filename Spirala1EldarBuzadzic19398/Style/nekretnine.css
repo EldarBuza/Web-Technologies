@@ -93,7 +93,7 @@ iframe {
     border-radius: 5px;
     cursor: pointer;
 }
-
+@media(min-width: 800px){
 #kuca{
     margin-left: 160px;
 }
@@ -108,4 +108,5 @@ iframe {
 
 #pp h1{
     margin-left: -495px;
+}
 }
