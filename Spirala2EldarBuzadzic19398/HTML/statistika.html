@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistika Nekretnina</title>
+    <link rel="stylesheet" href="../Style/statistika.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Statistika Nekretnina</h1>
+        <form id="histogram-form">
+            <label>Periodi (od-do):</label>
+            <input type="text" id="periodi" placeholder="Primjer: 2000-2010,2010-2024">
+            <label>Rasponi Cena (od-do):</label>
+            <input type="text" id="rasponi" placeholder="Primjer: 10000-150000,150000-1000000">
+            <button type="submit" id="iscrtaj-btn">Iscrtaj Histogram</button>
+        </form>
+        <div id="chart"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="../Scripts/SpisakNekretnina.js" defer></script>
+    <script src="../Scripts/StatistikaNekretnina.js" defer></script>
+    <script src="../Scripts/statistika.js" defer></script>
+</body>
+</html>
