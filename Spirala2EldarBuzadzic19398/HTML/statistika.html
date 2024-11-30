@@ -17,6 +17,34 @@
             <button type="submit" id="iscrtaj-btn">Iscrtaj Histogram</button>
         </form>
         <div id="chart"></div>
+        <hr>
+    <form id="kvadratura-form">
+        <h2>Prosječna Kvadratura</h2>
+        <label><strong>Mogući kriteriji:</strong></label>
+        <ul>
+            <li>Minimalna kvadratura</li>
+            <li>Maksimalna kvadratura</li>
+            <li>Minimalna cijena</li>
+            <li>Maximalna cijena</li>
+        </ul>
+        <label>
+        <input type="radio" name="tip-nekretnine" value="Stan"> Stan
+        </label>
+        <label>
+        <input type="radio" name="tip-nekretnine" value="Kuća"> Kuća
+        </label>
+        <input type="text" id="min-kvadratura" placeholder='Minimalna kvadratura, primjer: 50'>
+        <input type="text" id="max-kvadratura" placeholder='Maksimalna kvadratura, primjer: 100'>
+        <input type="text" id="min-cijena" placeholder='Minimalna cijena, primjer: 50000'>
+        <input type="text" id="max-cijena" placeholder='Maksimalna cijena, primjer: 100000'>
+        <input type="text" id="svojstvo" placeholder='Naziv svojstva za koji želite outlier: primjer: cijena, godina_izgradnje, kvadratura'>
+        <button type="submit" id="daj-kvadraturu">Izračunaj statistiku</button>
+    </form>
+    <div id="kvadratura-rezultat">
+        <strong><label id="prosjecna-kvadratura"></label></strong>
+        <br>
+        <strong><label id="outlier"></label></strong>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="../Scripts/SpisakNekretnina.js" defer></script>
