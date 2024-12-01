@@ -40,10 +40,27 @@
         <input type="text" id="svojstvo" placeholder='Naziv svojstva za koji želite outlier: primjer: cijena, godina_izgradnje, kvadratura'>
         <button type="submit" id="daj-kvadraturu">Izračunaj statistiku</button>
     </form>
+    <hr>
     <div id="kvadratura-rezultat">
         <strong><label id="prosjecna-kvadratura"></label></strong>
         <br>
         <strong><label id="outlier"></label></strong>
+    </div>
+    <div id = "moje-nekretnine-rezultat">
+        <h2>Moje Nekretnine</h2>
+    <label>Unesite id korisnika čije nekretnine želite u odnosu na njihove upite.</label>
+
+    <form id="moje-nekretnine">
+        <input type="text" id="id-korisnika" placeholder="Unesite id korisnika">
+        <button type="submit" id="daj-moje-nekretnine">Daj moje nekretnine</button>
+        <br>
+        <div id = "kontejner-za-nekretnine">
+            <label>Lista nekretnina odgovorajućeg id-a korisnika:</label>
+            <ul id="moje-nekretnine-lista">
+            </ul>
+            <label id = "greska"></label>
+        </div>
+    </form>
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>

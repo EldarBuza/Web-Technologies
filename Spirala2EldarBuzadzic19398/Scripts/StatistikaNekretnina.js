@@ -8,6 +8,7 @@ let StatistikaNekretnina = function(){
     };
     
     let prosjecnaKvadratura = function (kriterij){
+        if (kriterij.tip_nekretnine || kriterij.min_kvadratura || kriterij.max_kvadratura || kriterij.min_cijena || kriterij.max_cijena || kriterij.naziv || kriterij.tip_grijanja || kriterij.lokacija || kriterij.godina_izgradnje || kriterij.datum_objave || kriterij.opis){ 
         let filtriraneNekretnine = spisakNekretnina.filtrirajNekretnine(kriterij)
        // console.log("Broj elemenata u listi: " + filtriraneNekretnine.length);
         if (filtriraneNekretnine.length === 0) return 0;
@@ -18,6 +19,8 @@ let StatistikaNekretnina = function(){
         }
         return ukupnaKvadratura/filtriraneNekretnine.length;
     }
+    else return "Niste unijeli kriterij";
+}
     
     let outlier = function(kriterij, nazivSvojstva){
         if (nazivSvojstva == "kvadratura" || nazivSvojstva == "cijena" || nazivSvojstva == "godina_izgradnje"){
@@ -40,7 +43,9 @@ let StatistikaNekretnina = function(){
     }
     
         let mojeNekretnine = function (korisnik) {
-          let nekretnineSaUpitima = spisakNekretnina.listaNekretnina.filter(nekretnina => {
+            if (korisnik === null) return "Niste unijeli kriterij";
+            if (korisnik.id === undefined) return "Niste unijeli kriterij";
+            let nekretnineSaUpitima = spisakNekretnina.listaNekretnina.filter(nekretnina => {
             let upitiKorisnika = nekretnina.upiti.filter(upit => upit.korisnik_id === korisnik.id);
             return upitiKorisnika.length > 0;
         });
@@ -49,7 +54,10 @@ let StatistikaNekretnina = function(){
     };
         let histogramCijena = function (periodi, rasponiCijena) {
         let rezultat = [];
-
+        if (periodi.length === 0 || rasponiCijena.length === 0) return "Niste unijeli kriterij";    
+        periodi.forEach((period, indeksPerioda) => {
+            if (period.od > period.do) return "Neispravan period";
+        });
         periodi.forEach((period, indeksPerioda) => {
             let nekretnineUPeriodu = spisakNekretnina.listaNekretnina.filter(nekretnina => {
                 return parseInt(nekretnina.datum_objave.split(".")[2]) >= period.od && parseInt(nekretnina.datum_objave.split(".")[2]) <= period.do;

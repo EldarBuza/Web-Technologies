@@ -131,11 +131,14 @@ const maxKvadraturaInput = document.getElementById('max-kvadratura');
 const minCijenaInput = document.getElementById('min-cijena');
 const maxCijenaInput = document.getElementById('max-cijena');
 const nazivSvojstvaInput = document.getElementById('svojstvo');
+const fromNekretnine = document.getElementById('moje-nekretnine');
+const idKorisnikaInput = document.getElementById('id-korisnika');
+const listaNekretninaIzMojeNekretnine = document.getElementById('moje-nekretnine-lista');
 // Inicijalizacija objekta StatistikaNekretnina
 const statistika = StatistikaNekretnina();
 statistika.init(listaNekretnina, listaKorisnika); 
 
-// Event listener za dugme koje poziva iscrtavanje histograma
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -217,11 +220,15 @@ formKvadratura.addEventListener('submit', (event) => {
     // Poziv metode za izračunavanje prosječne kvadrature
     const prosjecnaKvadratura = statistika.prosjecnaKvadratura(nekretnina);
 
-    // Poziv metode za pronalazak outlier-a
+
     const outlier = statistika.outlier(nekretnina, nazivSvojstva);
 
     // Ispis rezultata na stranicu
     document.getElementById('prosjecna-kvadratura').textContent = `Prosjecna kvadratura: ${prosjecnaKvadratura}`;
+    if (outlier === undefined) {
+        document.getElementById('outlier').textContent = `Outlieri nisu traženi`;
+        return;
+    }
     document.getElementById('outlier').textContent = `Outlier: ${outlier.naziv}`;
 
     // Filtriranje nekretnina
@@ -232,4 +239,34 @@ formKvadratura.addEventListener('submit', (event) => {
     document.querySelectorAll('input[name="tip-nekretnine"]').forEach((radio) => {
         radio.checked = false;
     });
+});
+
+fromNekretnine.addEventListener('submit', (event) => {
+    event.preventDefault();
+    listaNekretninaIzMojeNekretnine.innerHTML = '';
+    const greska = document.getElementById('greska');
+    greska.textContent = '';
+
+    // Parsiranje unosa iz forme
+    const idKorisnika = parseInt(idKorisnikaInput.value);
+    const korisnik = listaKorisnika.find(korisnik => korisnik.id === idKorisnika);
+
+    // Poziv metode za izračunavanje prosječne kvadrature
+    if (korisnik === undefined) {
+        idKorisnikaInput.value = '';
+        greska.textContent = 'Korisnik sa unesenim ID-em ne postoji!'; 
+        listaNekretninaIzMojeNekretnine.innerHTML = '';
+        return;
+    }
+    const mojeNekretnine = statistika.mojeNekretnine(korisnik);
+
+    // Ispis rezultata na stranicu
+    mojeNekretnine.forEach(nekretnina => {
+        const li = document.createElement('li');
+        li.textContent = nekretnina.naziv;
+        listaNekretninaIzMojeNekretnine.appendChild(li);
+    });
+
+    // Filtriranje nekretnina
+    idKorisnika.value = '';
 });
