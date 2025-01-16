@@ -1,0 +1,27 @@
+meni.html komentar: Datoteka je sasvim uredu napravljena, te je veoma jednostavna. 
+Ja bih jedino dodao, umjesto <ul> direktno u <body>, <nav> tag koji bi išao oko <ul>. 
+Naravno CSS radi po klasama umjesto direktno tagovima je uvijek bolja opcija. 
+
+nekretnine.html komentar: Jedina ispravka koju sam morao specifično napraviti jeste upravo mijenjanje display:grid; dijela u display:flex;.
+Naravno, u suštini nije moguće napraviti da grid i flex izgledaju isto jer interno nisu isto predstavljeni i imaju određena ključna svojstva zbog kojih se razlikuju.
+Probao sam, prema uputama na samoj postavci spirale 1, te uputama na vježbi, što više približiti izgled korištenjem flex svojstva grid-u.
+
+detalji.html komentar: Kod je generalno dobar i nisam vršio nikakve popravke.
+Jedinu stvar koju sam uradio jeste dodao box-sizing: border-box; za sve elemente kako bi se margine i padding računali unutar ukupne širine elemenata. 
+Ovo olakšava prilagođavanje dizajna i spriječava neočekivana ponašanja kod promjene veličine ekrana.
+Naravno pored toga, kao zadatak potrebno je bilo koristiti media query-e u detalji.css kako bi zadatak bio tačno urađen.
+Kako bi upiti bili prikazani 2 u jednom redu za sve ekrane širine > 800px, te po jedan za ekrane od 600px do 800px, i carousel stil za sve < 600px.
+
+// Napomena sa vježbe: Koristi grid-template-area za posljednji zadatak!
+
+vijesti.html komentar: Prema uputama dobijenih sa postavke, te sa vježbi i Piazza platforme, 
+napravio sam layout za oba slučaja (preko 800px i ispod 800px), s tim da vrijedi napomenuti da se sve nove vijesti
+koje se planiraju dodavati moraju dodati unutar noveVijesti div-a jer bi se u suprotnom pokvario cijeli layout.
+Ovo se drugačije ne može riješiti, tako da sam se odlučio na pristup novog, zasebnog div-a.
+
+// SPIRALA 3:
+passworde date u korisnici.json je nemoguće koristiti po defaultu jer su to već hashirane vrijednosti, tj. bcrypt je one-way enkripcija, 
+što znači da ne mogu nikako znati koja je šifra data po defaultu u plain-textu, tako da sam uveo svoje 2 šifre i našao njihov hash.
+username1 - password1
+username2 - password2
+username3 - password3
