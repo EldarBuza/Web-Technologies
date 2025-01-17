@@ -13,6 +13,13 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 app.use(express.static(__dirname + '/public'));
 
 // Enable JSON parsing without body-parser
@@ -465,7 +472,7 @@ app.get('/nekretnine/top5', async (req, res) => {
 
 app.get('/upiti/moji', async (req, res) => {
   // Simuliranje autentifikacije korisnika, postavljanjem korisnik_id
-  req.session.korisnik_id = 3; // Simulacija korisnika sa id-em 2
+  req.session.korisnik_id = 2; // Simulacija korisnika sa id-em 2
 
   if (!req.session.korisnik_id) {
     // Korisnik nije prijavljen

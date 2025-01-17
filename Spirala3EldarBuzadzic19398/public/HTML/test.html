@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testiranje AJAX poziva</title>
+    <script src="../Scripts/PoziviAjax.js"></script> <!-- Uključite vašu JS datoteku -->
+</head>
+<body>
+    <h1>Top 5 nekretnina</h1>
+    <input type="text" id="lokacija" placeholder="Unesite lokaciju">
+    <button onclick="getTop5()">Prikaži top 5</button>
+    <div id="result"></div>
+    <script>
+        // Funkcija koja pokreće poziv za top 5 nekretnina
+        function getTop5() {
+            const lokacija = document.getElementById('lokacija').value;
+
+            // Pozivamo metodu iz PoziviAjax.js modula
+            PoziviAjax.getTop5Nekretnina(lokacija, (error, data) => {
+                const resultDiv = document.getElementById('result');
+                
+                if (error) {
+                    resultDiv.innerHTML = `Greška: ${error.statusText}`;
+                } else {
+                    let content = '<ul>';
+                    data.forEach(nekretnina => {
+                        content += `<li>${nekretnina.naziv} - ${nekretnina.lokacija}</li>`;
+                    });
+                    content += '</ul>';
+                    resultDiv.innerHTML = content;
+                }
+            });
+        }
+    </script>
+
+    <button id="btnMojiUpiti">Prikaži Moje Upite</button>
+    <div id="rezultatUpita"></div>
+
+   <script>
+    document.getElementById('btnMojiUpiti').addEventListener('click', function () {
+    PoziviAjax.getMojiUpiti((error, data) => {
+        const rezultatDiv = document.getElementById('rezultatUpita');
+        if (error) {
+            rezultatDiv.innerHTML = `<p style="color:red;">Greška: ${error.statusText}</p>`;
+        } else if (data.length === 0) {
+            rezultatDiv.innerHTML = `<p>Nema upita za prikaz.</p>`;
+        } else {
+            let output = '<ul>';
+            data.forEach(upit => {
+                output += `<li>Nekretnina ID: ${upit.id_nekretnine} - Tekst upita: ${upit.tekst_upita}</li>`;
+            });
+            output += '</ul>';
+            rezultatDiv.innerHTML = output;
+        }
+    });
+});
+
+   </script>
+
+<button onclick="testirajGetNekretnina()">Prikaži nekretninu</button>
+
+<script>
+    function testirajGetNekretnina() {
+    const nekretninaID = 2; // Testni ID
+    PoziviAjax.getNekretnina(nekretninaID, (error, data) => {
+        if (error) {
+            console.error('Greška:', error);
+        } else {
+            console.log('Detalji nekretnine:', data);
+        }
+    });
+}
+</script>
+
+<button id="btnTestUpiti">Prikaži upite</button>
+<script>
+    document.getElementById('btnTestUpiti').addEventListener('click', function() {
+    PoziviAjax.getNextUpiti(1, 0, function(error, data) {
+        if (error) {
+            alert("Greška: " + error.statusText);
+        } else {
+            alert("Upiti: " + JSON.stringify(data));
+        }
+    });
+});
+</script>
+</body>
+</html>
