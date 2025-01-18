@@ -103,8 +103,8 @@ app.post('/login', async (req, res) => {
   }
 
   if (currentTime < loginAttempts[jsonObj.username].lockUntil) {
-    await logLoginAttempt(jsonObj.username, 'neuspješno - zaključan');
-    return res.status(429).json({ greska: "Previse neuspjesnih pokusaja. Pokusajte ponovo za 1 minutu." });
+    await logLoginAttempt(jsonObj.username, 'Neuspješna prijava');
+    return res.status(429).json({ greska: "Previše neuspješnih pokušaja. Pokušajte ponovo za 1 minutu." });
   }
 
   try {
@@ -119,7 +119,8 @@ app.post('/login', async (req, res) => {
 
         if (isPasswordMatched) {
           req.session.username = korisnik.username;
-          loginAttempts[jsonObj.username] = { attempts: 0, lockUntil: 0 };
+          req.session.korisnik_id = korisnik.id;
+          loginAttempts[jsonObj.username] = { attempts: 0, lockUntil: 0 };  // ✅ Resetovanje pokušaja i blokade
           found = true;
           break;
         }
@@ -127,16 +128,20 @@ app.post('/login', async (req, res) => {
     }
 
     if (found) {
-      await logLoginAttempt(jsonObj.username, 'uspješno');
+      await logLoginAttempt(jsonObj.username, 'Uspješna prijava');
       res.json({ poruka: 'Uspješna prijava' });
     } else {
-      loginAttempts[jsonObj.username].attempts += 1;
-      await logLoginAttempt(jsonObj.username, 'neuspješno');
+      loginAttempts[jsonObj.username].attempts += 1;  // ✅ Povećanje pokušaja odmah
 
-      if (loginAttempts[jsonObj.username].attempts >= 3) {
-        loginAttempts[jsonObj.username].lockUntil = currentTime + 60 * 1000;
-        loginAttempts[jsonObj.username].attempts = 0;
+      await logLoginAttempt(jsonObj.username, 'Neuspješna prijava');
+
+
+      if (loginAttempts[jsonObj.username].attempts === 3) {
+        loginAttempts[jsonObj.username].lockUntil = currentTime + 60 * 1000;  // ⏳ Blokada odmah na trećem pokušaju
+        loginAttempts[jsonObj.username].attempts = 0;  // Reset brojača
+        return res.status(429).json({ greska: "Previše neuspješnih pokušaja. Pokušajte ponovo za 1 minutu." });
       }
+
       res.json({ poruka: 'Neuspješna prijava' });
     }
   } catch (error) {
@@ -472,7 +477,7 @@ app.get('/nekretnine/top5', async (req, res) => {
 
 app.get('/upiti/moji', async (req, res) => {
   // Simuliranje autentifikacije korisnika, postavljanjem korisnik_id
-  req.session.korisnik_id = 2; // Simulacija korisnika sa id-em 2
+  // req.session.korisnik_id = 2; // Simulacija korisnika sa id-em 2
 
   if (!req.session.korisnik_id) {
     // Korisnik nije prijavljen
@@ -548,41 +553,44 @@ app.get('/nekretnina/:id', async (req, res) => {
 });
 
 app.get('/next/upiti/nekretnina:id', async (req, res) => {
-  const { id } = req.params; 
+  const { id } = req.params;
   const { page } = req.query;
 
-  // Provjera da li je stranica validan broj
-  if (!page || isNaN(page) || page < 0) {  // Dozvoljava stranice početi od 0
-    return res.status(400).json({ greska: 'Neispravan broj stranice.' }); // Ovo sam dodao u slučaju da neko unese nešto što nije broj, ili negativan broj.
+
+  if (!page || isNaN(page) || page < 0) {
+    return res.status(400).json({ greska: 'Neispravan broj stranice.' });
   }
 
   try {
     const nekretnine = await readJsonFile('nekretnine');
-    // Traženje nekretnine prema ID-u
     const nekretnina = nekretnine.find((item) => item.id === parseInt(id, 10));
+
     if (!nekretnina) {
-      // Ako nekretnina nije pronađena
       return res.status(404).json({ greska: `Nekretnina sa ID-em ${id} nije pronađena.` });
     }
-    // Maksimalno 3 upita po stranici
+
     const upitiPoStranici = 3;
-    const startIndex = page * upitiPoStranici;  // Početni indeks, stranica počinje od 0, navedeno je da treba za page = 0 prikazati prva 3 upita
+    
+
+    const obrnutRedoslijedUpita = [...nekretnina.upiti].reverse();
+
+    const startIndex = page * upitiPoStranici;
     const endIndex = startIndex + upitiPoStranici;
 
-    // Filtriranje upita za prikaz na određenoj stranici po uputama rute, koristim slice metodu da ostavim samo upite za određenu stranicu
-    const upitiNaStranici = nekretnina.upiti.slice(startIndex, endIndex);
+
+    const upitiNaStranici = obrnutRedoslijedUpita.slice(startIndex, endIndex);
 
     if (upitiNaStranici.length === 0) {
       return res.status(404).json({ greska: 'Nema upita za ovu stranicu.' });
     }
 
-    // Vraćanje rezultata
     res.status(200).json(upitiNaStranici);
   } catch (error) {
     console.error('Greška pri dohvaćanju upita za nekretninu:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
 });
+
 
 
 

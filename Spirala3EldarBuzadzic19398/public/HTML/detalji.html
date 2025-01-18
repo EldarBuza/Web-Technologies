@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalji</title>
     <link rel="stylesheet" type="text/css" href="../Style/detalji.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../Scripts/carousel.js" defer></script>
     <script src="../Scripts/detalji.js" defer></script>
 </head>
@@ -14,43 +15,30 @@
     <iframe src="../HTML/meni.html"></iframe>
 
     <div id="osnovno">
-        <img src="/Resources/stan/stan1.jpg" alt="Nekretnina">
-        <p><strong>Naziv:</strong> Useljiv stan Sarajevo</p>
-        <p><strong>Kvadratura:</strong> 58 m²</p>
-        <p><strong>Cijena:</strong> 232,000 KM</p>
+        <img id="nekretnina-slika" src="/Resources/stan/stan1.jpg" alt="Nekretnina">
+        <p><strong>Naziv:</strong> <span id="naziv"></span></p>
+        <p><strong>Kvadratura:</strong> <span id="kvadratura"></span> m²</p>
+        <p><strong>Cijena:</strong> <span id="cijena"></span> KM</p>
     </div>
 
     <h3>DETALJI</h3>
     <div id="detalji">
         <div id="kolona1">
-            <p><strong>Tip grijanja:</strong> plin</p>
-            <p><strong>Lokacija:</strong> Novo Sarajevo</p>
+            <p><strong>Tip grijanja:</strong> <span id="tip_grijanja"></span></p>
+            <p><strong>Lokacija:</strong><a href="#" id="top5Link"><span id="lokacija"></span></a></p>
         </div>
         <div id="kolona2">
-            <p><strong>Godina izgradnje:</strong> 2019</p>
-            <p><strong>Datum objave oglasa:</strong> 2022</p>
+            <p><strong>Godina izgradnje:</strong> <span id="godina_izgradnje"></span></p>
+            <p><strong>Datum objave oglasa:</strong> <span id="datum_objave"></span></p>
         </div>
         <div id="opis">
-            <p><strong>Opis:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore dignissimos eos
-                tempore, mollitia doloribus vitae molestiae ullam ut repudiandae alias corrupti, rem nisi officia at
-                perferendis dolorum iusto dolores nobis!</p>
+            <p><strong>Opis:</strong> <span id="opis"></span></p>
         </div>
     </div>
 
     <h3>UPITI</h3>
     <div id="upiti">
-        <div class="upit">
-            <p><strong>Username 1:</strong></p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque et architecto maiores consequuntur soluta
-                voluptas, molestias libero illo minus obcaecati pariatur provident ipsum id dicta quod. Eveniet ipsum
-                iure ullam?</p>
-        </div>
-        <div class="upit">
-            <p><strong>Username 2:</strong></p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore perferendis dolor, aperiam
-                voluptatibus neque explicabo qui, quam, illo suscipit sint quo officia dolores consequatur voluptatem.
-                Laborum dolor at placeat!</p>
-        </div>
+        <!-- Dynamic content will be loaded here -->
     </div>
     <div id="upiti-buttons">
         <button id="prev">Prethodni</button>

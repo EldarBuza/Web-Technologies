@@ -62,6 +62,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             detaljiDugme.addEventListener('click', function () {
                 const idNekretnine = nekretnina.id;
                 MarketingAjax.klikNekretnina(idNekretnine);
+                detaljiDugme.href = `../HTML/detalji.html?id=${idNekretnine}`;
             });
             nekretninaElement.appendChild(detaljiDugme);
 
@@ -124,6 +125,45 @@ function filtrirajOnClick() {
 }
 
 document.getElementById('dugmePretraga').addEventListener('click', filtrirajOnClick);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lokacija = urlParams.get('lokacija');
+    console.log(lokacija);
+
+    if (lokacija) {
+        // Pozivanje metode za dohvaćanje top 5 nekretnina na osnovu lokacije
+        PoziviAjax.getTop5Nekretnina(lokacija, (error, nekretnine) => {
+            if (error) {
+                console.error('Greška prilikom dohvaćanja top 5 nekretnina:', error);
+                alert('Došlo je do greške pri učitavanju podataka.');
+                return;
+            }
+            console.log(nekretnine);
+            prikaziTop5Nekretnine(nekretnine);
+        });
+    }
+});
+
+// Funkcija za prikazivanje top 5 nekretnina na stranici
+function prikaziTop5Nekretnine(nekretnine) {
+    // Ciljane sekcije za različite tipove nekretnina
+    const divStan = document.getElementById("stan");
+    const divKuca = document.getElementById("kuca");
+    const divPp = document.getElementById("pp");
+
+    // Čišćenje svih sekcija
+    divStan.innerHTML = '';
+    divKuca.innerHTML = '';
+    divPp.innerHTML = '';
+    const dohvaceneNekretnineInstance = SpisakNekretnina();
+    dohvaceneNekretnineInstance.init(nekretnine, listaKorisnika);
+    spojiNekretnine(divStan, dohvaceneNekretnineInstance, "Stan");
+    spojiNekretnine(divKuca, dohvaceneNekretnineInstance, "Kuća");
+    spojiNekretnine(divPp, dohvaceneNekretnineInstance, "Poslovni prostor");
+    
+}
+
 
 setInterval(() => {
     MarketingAjax.osvjeziPretrage(document.getElementById('divNekretnine'));

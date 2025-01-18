@@ -21,11 +21,11 @@
       },
       {
         "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium."
+        "tekst_upita": "Pretposljednji upit za prikaz."
       },
       {
         "korisnik_id": 2,
-        "tekst_upita": "Phasellus viverra nulla."
+        "tekst_upita": "Posljednji upit za prikaz."
       }
     ]
   },

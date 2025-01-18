@@ -11,7 +11,7 @@ window.onload =function(){
                 window.alert(err)
             }else{
                 var message=JSON.parse(data)
-                if(message.poruka=="Neuspješna prijava"){
+                if(message.poruka =="Neuspješna prijava"){
                     var divElement=document.getElementById("areaBelow")
                     divElement.innerHTML="<h2>Neispravni podaci</h2>"
                 }else{
