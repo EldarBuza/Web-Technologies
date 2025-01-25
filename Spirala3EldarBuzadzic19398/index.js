@@ -48,7 +48,7 @@ const routes = [
   { route: '/meni.html', file: 'meni.html' },
   { route: '/prijava.html', file: 'prijava.html' },
   { route: '/profil.html', file: 'profil.html' },
-  // Practical for adding more .html files as the project grows
+  { route: '/mojiUpiti.html', file: 'mojiUpiti.html'},
 ];
 
 // Loop through the array so HTML can be served
@@ -120,7 +120,8 @@ app.post('/login', async (req, res) => {
         if (isPasswordMatched) {
           req.session.username = korisnik.username;
           req.session.korisnik_id = korisnik.id;
-          loginAttempts[jsonObj.username] = { attempts: 0, lockUntil: 0 };  // ✅ Resetovanje pokušaja i blokade
+          console.log('Session:', req.session);
+          loginAttempts[jsonObj.username] = { attempts: 0, lockUntil: 0 };  
           found = true;
           break;
         }
@@ -131,13 +132,13 @@ app.post('/login', async (req, res) => {
       await logLoginAttempt(jsonObj.username, 'Uspješna prijava');
       res.json({ poruka: 'Uspješna prijava' });
     } else {
-      loginAttempts[jsonObj.username].attempts += 1;  // ✅ Povećanje pokušaja odmah
+      loginAttempts[jsonObj.username].attempts += 1;  
 
       await logLoginAttempt(jsonObj.username, 'Neuspješna prijava');
 
 
       if (loginAttempts[jsonObj.username].attempts === 3) {
-        loginAttempts[jsonObj.username].lockUntil = currentTime + 60 * 1000;  // ⏳ Blokada odmah na trećem pokušaju
+        loginAttempts[jsonObj.username].lockUntil = currentTime + 60 * 1000;  
         loginAttempts[jsonObj.username].attempts = 0;  // Reset brojača
         return res.status(429).json({ greska: "Previše neuspješnih pokušaja. Pokušajte ponovo za 1 minutu." });
       }
@@ -178,6 +179,7 @@ Returns currently logged user data. First takes the username from the session an
 from the .json file.
 */
 app.get('/korisnik', async (req, res) => {
+  console.log('Session:', req.session);
   // Check if the username is present in the session
   if (!req.session.username) {
     // User is not logged in

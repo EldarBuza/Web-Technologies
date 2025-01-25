@@ -252,6 +252,7 @@ function impl_getNextUpiti(nekretnina_id, page, fnCallback) {
         } else {
             try {
                 const upiti = JSON.parse(data);
+                console.log(upiti);
                 fnCallback(null, upiti);
             } catch (parseError) {
                 fnCallback(parseError, null);

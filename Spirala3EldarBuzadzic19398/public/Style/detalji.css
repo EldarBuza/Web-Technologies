@@ -81,41 +81,19 @@ iframe {
   background-color:white;
 }
 
-/* Stilovi za širine veće od 800px (po dva upita u redu) */
-@media (min-width: 801px) {
-  .upit {
-    display: inline-block;
-    width: 48%;
-    margin-right: 2%;
-  }
-  .upit:nth-child(2n) {
-    margin-right: 0;
-  }
-  #upiti-buttons{
-    display:none;
-  }
-}
 
-/* Stilovi za širine od 600px do 800px (po jedan upit u redu) */
-@media (max-width: 800px) and (min-width: 600px){
-  .upit {
-    display: block;
-    width: 100%;
-  }
-  #upiti-buttons{
-    display:none;
-  }
-}
+
+
 
 
 /* Stilovi za manje od 600px (carousel prikaz) */
-@media (max-width: 599px) {
+
   #upiti {
     display: flex;
     overflow: hidden;
     flex-direction: row; 
     position: relative;
-  }
+
 
   .upit {
     flex: 0 0 100%;

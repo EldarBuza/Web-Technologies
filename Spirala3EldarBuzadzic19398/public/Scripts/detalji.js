@@ -1,62 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mediaQuery = window.matchMedia('(max-width: 599px)');
-    const urlParams = new URLSearchParams(window.location.search);
-    const nekretninaId = urlParams.get('id');
-    const glavniElement = document.querySelector('#upiti');
-    const sviElementi = Array.from(document.querySelectorAll('.upit'));
-    const originalHTML = sviElementi.map((el) => el.outerHTML).join('');
-    let carousel = null;
+    const glavniElement = document.querySelector('#upiti'); // Div za prikaz upita
+    let sviElementi = []; // Lista svih elemenata upita
+    let carousel = null; // Instanca carousela
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const nekretninaId = urlParams.get('id');
-    
-        if (!nekretninaId) {
-            console.error('ID nekretnine nije pronađen u URL-u!');
-            return;
-        }
-    
-        // AJAX poziv za učitavanje detalja nekretnine
-        fetch(`/nekretnina/${nekretninaId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Greška prilikom učitavanja podataka');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Provjeriti i dodati podatke u HTML
-                const { naziv, kvadratura, cijena, tip_grijanja, lokacija, godina_izgradnje, datum_objave, opis, upiti } = data;
-    
-                document.querySelector('#osnovno img').src = `/Resources/stan/stan${nekretninaId}.jpg`; // Pretpostavka da koristimo ID za sliku
-                document.querySelector('#osnovno p:nth-child(1)').textContent = `Naziv: ${naziv}`;
-                document.querySelector('#osnovno p:nth-child(2)').textContent = `Kvadratura: ${kvadratura} m²`;
-                document.querySelector('#osnovno p:nth-child(3)').textContent = `Cijena: ${cijena} KM`;
-    
-                // Detalji nekretnine
-                document.querySelector('#detalji #kolona1 p:nth-child(1)').textContent = `Tip grijanja: ${tip_grijanja}`;
-                document.querySelector('#detalji #kolona1 p:nth-child(2)').textContent = `Lokacija: ${lokacija}`;
-                document.querySelector('#detalji #kolona2 p:nth-child(1)').textContent = `Godina izgradnje: ${godina_izgradnje}`;
-                document.querySelector('#detalji #kolona2 p:nth-child(2)').textContent = `Datum objave: ${datum_objave}`;
-                document.querySelector('#detalji #opis p').textContent = `Opis: ${opis}`;
-    
-                // Upiti
-                const upitiContainer = document.querySelector('#upiti');
-                upitiContainer.innerHTML = ''; // Očisti prethodne upite
-                upiti.forEach((upit, index) => {
-                    const upitElement = document.createElement('div');
-                    upitElement.classList.add('upit');
-                    upitElement.innerHTML = `
-                        <p><strong>Username ${upit.korisnik_id}:</strong></p>
-                        <p>${upit.tekst_upita}</p>
-                    `;
-                    upitiContainer.appendChild(upitElement);
-                });
-            })
-            .catch(error => {
-                console.error('Došlo je do greške:', error);
+    const nekretninaId = new URLSearchParams(window.location.search).get('id'); // ID nekretnine iz URL-a
+    if (!nekretninaId) {
+        console.error('ID nekretnine nije pronađen u URL-u!');
+        return;
+    }
+
+    // Funkcija za dohvat podataka nekretnine
+    async function getNekretnina(id) {
+        try {
+            const response = await fetch(`/nekretnina/${id}`);
+            if (!response.ok) {
+                throw new Error('Greška prilikom učitavanja podataka o nekretnini');
+            }
+            const data = await response.json();
+
+            // Popunjavanje osnovnih podataka
+            document.getElementById('naziv').textContent = data.naziv;
+            document.getElementById('kvadratura').textContent = data.kvadratura;
+            document.getElementById('cijena').textContent = data.cijena;
+            document.getElementById('tip_grijanja').textContent = data.tip_grijanja;
+            document.getElementById('lokacija').textContent = data.lokacija;
+            document.getElementById('godina_izgradnje').textContent = data.godina_izgradnje;
+            document.getElementById('datum_objave').textContent = data.datum_objave;
+            document.getElementById('opis').textContent = data.opis;
+            document.getElementById('nekretnina-slika').src = `/Resources/stan/stan${id}.jpg`;
+
+            // Prikazivanje upita
+            sviElementi = data.upiti.map(upit => {
+                const div = document.createElement('div');
+                div.classList.add('upit');
+                div.innerHTML = `
+                    <p><strong>Korisnik ${upit.korisnik_id}:</strong></p>
+                    <p>${upit.tekst_upita}</p>
+                `;
+                return div;
             });
-    });
+
+            // Resetovanje sadržaja i inicijalizacija carousel-a
+            glavniElement.innerHTML = ''; // Očistimo prethodni sadržaj
+            sviElementi.forEach(el => glavniElement.appendChild(el));
+
+            inicijalizirajCarousel();
+        } catch (error) {
+            console.error('Došlo je do greške:', error);
+        }
+    }
+
+    // Funkcija za inicijalizaciju carousel-a
+    function inicijalizirajCarousel() {
+        carousel = postaviCarousel(
+            glavniElement,
+            sviElementi,
+            0,
+            async (stranica = 0) => {
+                // Dinamičko dohvaćanje novih upita sa servera
+                try {
+                    const response = await fetch(`/next/upiti/nekretnina${nekretninaId}?page=${stranica}`);
+                    if (!response.ok) {
+                        throw new Error('Greška prilikom dohvaćanja novih upita');
+                    }
+                    const noviUpiti = await response.json();
+
+                    // Konvertovanje u DOM elemente
+                    return noviUpiti.map(upit => {
+                        const div = document.createElement('div');
+                        div.classList.add('upit');
+                        div.innerHTML = `
+                            <p><strong>Korisnik ${upit.korisnik_id}:</strong></p>
+                            <p>${upit.tekst_upita}</p>
+                        `;
+                        return div;
+                    });
+                } catch (error) {
+                    console.error('Greška pri dohvaćanju novih upita:', error);
+                    return [];
+                }
+            }
+        );
+
+        // Dodavanje event listener-a na dugmad
+        if (carousel) {
+            document.getElementById('prev').addEventListener('click', carousel.fnLijevo);
+            document.getElementById('next').addEventListener('click', carousel.fnDesno);
+        }
+    }
+
+    // Dohvat podataka o nekretnini na osnovu ID-a
+    getNekretnina(nekretninaId);
+});
 
 
     // Funkcija za dohvat podataka nekretnine
@@ -77,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Dynamically add inquiries
                 if (data.upiti.length > 0) {
+                    console.log(data);
+                    sviElementi = [...data.upiti];
+                    console.log(sviElementi);
                     data.upiti.forEach((upit, index) => {
                         const upitElement = document.createElement('div');
                         upitElement.classList.add('upit');
@@ -96,12 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicijalizacija carousel-a
     const inicijalizirajCarousel = () => {
-        if (!glavniElement || sviElementi.length === 0) {
+        if (!glavniElement) {
             console.error('Carousel se ne može inicijalizirati: Nisu pronađeni potrebni elementi.');
             return;
         }
 
-        glavniElement.innerHTML = ''; 
         carousel = postaviCarousel(glavniElement, sviElementi);
 
         if (carousel) {
@@ -123,28 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Za promjenu veličine ekrana
-    const handleMediaQueryChange = (e) => {
-        if (e.matches) {
-            inicijalizirajCarousel(); // Pokrećem carousel ako je ekran uži od 600px
-        } else {
-            vratiNaPocetnoStanje(); // Vraćam na početni izgled za šire ekrane
-        }
-    };
 
-    // Početna provjera
-    handleMediaQueryChange(mediaQuery);
 
-    // Dodavanje listenera za promjene dimenzija
-    mediaQuery.addEventListener('change', handleMediaQueryChange);
-
-    // Pozivanje funkcije s ID-om iz URL-a
-    if (nekretninaId) {
-        getNekretnina(nekretninaId);
-    } else {
-        alert('ID nekretnine nije pronađen!');
-    }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     const top5Link = document.getElementById('top5Link');
