@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bs-BA">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji</title>
+    <link rel="stylesheet" type="text/css" href="../Style/detalji.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <iframe src="../HTML/meni.html"></iframe>
+
+    <div id="osnovno">
+        <img id="nekretnina-slika" src="/Resources/stan/stan1.jpg" alt="Nekretnina">
+        <p><strong>Naziv:</strong> <span id="naziv"></span></p>
+        <p><strong>Kvadratura:</strong> <span id="kvadratura"></span> m²</p>
+        <p><strong>Cijena:</strong> <span id="cijena"></span> KM</p>
+    </div>
+
+    <h3>DETALJI</h3>
+    <div id="detalji">
+        <div id="kolona1">
+            <p><strong>Tip grijanja:</strong> <span id="tip_grijanja"></span></p>
+            <p><strong>Lokacija:</strong><a href="#" id="top5Link"><span id="lokacija"></span></a></p>
+        </div>
+        <div id="kolona2">
+            <p><strong>Godina izgradnje:</strong> <span id="godina_izgradnje"></span></p>
+            <p><strong>Datum objave oglasa:</strong> <span id="datum_objave"></span></p>
+        </div>
+        <div id="opis">
+            <p><strong>Opis:</strong> <span id="opis"></span></p>
+        </div>
+    </div>
+
+    <h3>UPITI</h3>
+    <div id="upiti">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+    <div id="upiti-buttons">
+        <button id="prev">Prethodni</button>
+        <button id="next">Sljedeći</button>
+    </div>
+
+    <h3>PONUDE</h3>
+    <div id="ponude">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+    <div id="ponude-buttons">
+        <button id="prev-ponude">Prethodni</button>
+        <button id="next-ponude">Sljedeći</button>
+    </div>
+    <h3>ZAHTJEVI</h3>
+    <div id="zahtjevi">
+
+    </div>
+    <div id="zahtjevi-buttons">
+        <button id="prev-zahtjevi">Prethodni</button>
+        <button id="next-zahtjevi">Sljedeći</button>
+    </div>
+    <h3>DODAJ INTERESOVANJE</h3>
+    <div id="dodavanje-interesovanja">
+<form id="interesovanje-form">
+    <label for="tip-interesovanja">Tip interesovanja:</label>
+    <select id="tip-interesovanja" name="tip">
+        <option value=""></option>
+        <option value="upit">Upit</option>
+        <option value="zahtjev">Zahtjev</option>
+        <option value="ponuda">Ponuda</option>
+    </select>
+
+    <div id="dodatni-elementi"></div>
+    
+    <button type="submit">Dodaj</button>
+</form>
+</div>
+<p id = "poruka"></p>
+<script src="../Scripts/carousel.js" defer></script>
+<script src="../Scripts/detalji.js" defer></script> 
+<script src="../Scripts/PoziviAjax.js"></script>
+</body>
+
+</html>
