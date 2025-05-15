@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "chai": "^5.1.2",
+    "express": "^4.18.2",
+    "express-session": "^1.18.1",
+    "joi": "^17.13.3",
+    "mocha": "^11.1.0",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5",
+    "supertest": "^7.0.0"
+  },
+  "name": "wtspirala",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Eldar Buzadžić",
+  "license": "ISC",
+  "description": ""
+}
